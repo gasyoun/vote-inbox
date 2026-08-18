@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gasyoun/vote-inbox/blob/master/schema/decisions-pack.schema.json",
+  "title": "decisions-pack",
+  "description": "One voted pack of a /review-sheet, ids and verdicts only. No question text, no card HTML, no gloss text, no personal names.",
+  "type": "object",
+  "required": ["sheet_id", "pack", "pack_size", "generated", "decided", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "sheet_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Shared with the parent sheet and every sibling pack; never changed except through the A3 migration path."
+    },
+    "pack": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "1-based pack index within the sheet."
+    },
+    "pack_size": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Item count this pack was cut to (the last pack of a sheet may hold fewer)."
+    },
+    "generated": {
+      "type": "string",
+      "pattern": "^\\d{2}-\\d{2}-\\d{4}$",
+      "description": "DD-MM-YYYY, when the pack HTML was emitted."
+    },
+    "decided": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of items in this pack carrying a non-null decision."
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/item" }
+    }
+  },
+  "definitions": {
+    "item": {
+      "type": "object",
+      "required": ["id", "decision"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "type": ["string", "null"],
+          "enum": ["approve", "reject", "defer", null]
+        },
+        "reject_label": {
+          "type": ["string", "null"],
+          "description": "A short reason code when decision is reject; null otherwise."
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 280,
+          "not": { "pattern": "<" },
+          "description": "Free-text curator note, <=280 chars, no HTML angle brackets, no dump of the card's question field. A pack violating this is refused upstream; the default on ambiguity is to truncate the note and keep the decision."
+        }
+      }
+    }
+  }
+}

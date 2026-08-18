@@ -1,0 +1,6 @@
+# Paste the vote-inbox GitHub OAuth App's Client ID below (one line, no
+# quotes). This is public, not a secret -- see the "Registration OAuth App"
+# section of IMPLEMENTATION_UPRAVA_VOTE_PLATFORM_W3.md in Uprava for the
+# exact click path. NEVER put a Client Secret in this file or anywhere in
+# this repo.
+
