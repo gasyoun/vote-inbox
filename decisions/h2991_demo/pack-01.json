@@ -1,0 +1,48 @@
+{
+  "sheet_id": "h2991_demo",
+  "pack": 1,
+  "generated": "2026-08-18T12:54:33.744Z",
+  "decided": 10,
+  "items": [
+    {
+      "id": "D01",
+      "decision": "approve"
+    },
+    {
+      "id": "D02",
+      "decision": "approve"
+    },
+    {
+      "id": "D03",
+      "decision": "approve"
+    },
+    {
+      "id": "D04",
+      "decision": "reject"
+    },
+    {
+      "id": "D05",
+      "decision": "defer"
+    },
+    {
+      "id": "D06",
+      "decision": "approve"
+    },
+    {
+      "id": "D07",
+      "decision": "reject"
+    },
+    {
+      "id": "D08",
+      "decision": "approve"
+    },
+    {
+      "id": "D09",
+      "decision": "reject"
+    },
+    {
+      "id": "D10",
+      "decision": "approve"
+    }
+  ]
+}
