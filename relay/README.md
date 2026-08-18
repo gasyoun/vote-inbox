@@ -45,7 +45,7 @@ button and nothing else.
 | `POST /gh-device/token` | `https://github.com/login/oauth/access_token` |
 
 `GET` is refused (`403`). Allowed origins live in
-[`gh-device-relay-map.conf`](gh-device-relay-map.conf): the vote hub, plus
+[`gh-device-relay-map.conf`](https://github.com/gasyoun/vote-inbox/blob/master/relay/gh-device-relay-map.conf): the vote hub, plus
 `localhost`/`127.0.0.1` on any port for local development. An unlisted origin gets an
 empty `$cors_origin`, nginx omits the header, and the browser refuses the read.
 
@@ -90,7 +90,7 @@ that body, not the CORS behaviour.
 **An OAuth App `client_id`.** GitHub exposes no API for creating one, so this is a
 browser form a human fills in — the click path is in
 [IMPLEMENTATION_UPRAVA_VOTE_PLATFORM_W3.md](https://github.com/gasyoun/Uprava/blob/main/docs/IMPLEMENTATION_UPRAVA_VOTE_PLATFORM_W3.md).
-Paste the result into [`../config/oauth_client_id.txt`](../config/oauth_client_id.txt),
+Paste the result into [`../config/oauth_client_id.txt`](https://github.com/gasyoun/vote-inbox/blob/master/config/oauth_client_id.txt),
 then generators pass:
 
 ```python
