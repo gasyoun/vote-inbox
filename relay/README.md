@@ -120,6 +120,36 @@ which proves four things at once: the OAuth App exists, **Enable Device Flow** i
 ticked (otherwise `device_flow_disabled`), the Client ID is correct, and the relay
 forwards a readable response to the browser.
 
+## Live end-to-end smoke — PASSED 18-08-2026
+
+The whole loop has now run for real, with a human at the keyboard:
+
+1. MG opened [pack 1 of the demo sheet](https://gasyoun.github.io/vote/sheets/h2991_demo/pack-01.html),
+   voted 10 cards, pressed **Сохранить в GitHub**, and authorised the device code on
+   `github.com/login/device`.
+2. The write landed as
+   [decisions/h2991_demo/pack-01.json](https://github.com/gasyoun/vote-inbox/blob/master/decisions/h2991_demo/pack-01.json)
+   — commit `vote: h2991_demo pack-01`, on **`master`**, which is the v0.17.1
+   default-branch fix working.
+3. The payload is exactly the contract: `sheet_id`, `pack`, `generated`, `decided`,
+   then ten `{id, decision}` pairs. **No card text, no titles, no questions, no notes.**
+4. `relay/smoke_hydrate.py` then loaded the same pack in a **clean browser profile**
+   that had never voted: 6 approve / 3 reject / 1 defer appeared from the inbox,
+   banner «подтянуто 10 голос(ов) с GitHub», pack 2 stayed untouched at 10 unvoted,
+   and the parent read `10 of 22 decided` with pack 1 marked done. 11/11 green.
+
+That closes the last item H2991 had to leave INCONCLUSIVE.
+
+### Known: hydration can take several seconds
+
+The second hop — `raw.githubusercontent.com` for each decisions file — is frequently
+slow to settle, occasionally more than 10 s, while the `api.github.com` directory
+listing answers in about a second. Votes therefore appear a beat after the page does.
+The first hydrate smoke was written with a 20 s ceiling and **failed**; the code was
+correct all along. Anything testing this needs a generous timeout, and a future
+version may be worth a visible «подтягиваю голоса…» hint so the delay reads as
+progress rather than as nothing happening.
+
 ## Still needed before the button works — nothing
 
 **Nothing.** ✅ The OAuth App is registered and its Client ID
