@@ -85,10 +85,48 @@ The probe `client_id` is deliberately fake, so `{"error":"Not Found"}` is GitHub
 genuine answer — and it being *readable* is the whole point. A real OAuth App changes
 that body, not the CORS behaviour.
 
-## Still needed before the button works
+## The trap: a smoke that passes on the error path
 
-**An OAuth App `client_id`.** GitHub exposes no API for creating one, so this is a
-browser form a human fills in — the click path is in
+The first deploy was verified with a **fake** `client_id`, so GitHub answered `404`
+`{"error":"Not Found"}` — a small response. Every check passed. The first call with a
+**real** `client_id` returned **502**, because GitHub's success reply carries its full
+header set (a ~4 KB `Content-Security-Policy` among them) and overflowed nginx's
+default `proxy_buffer_size` of 4k/8k:
+
+```
+[error] upstream sent too big header while reading response header from upstream,
+        request: "POST /gh-device/code", upstream: "https://140.82.121.3:443/login/device/code"
+```
+
+Hence `proxy_buffer_size 32k` / `proxy_buffers 8 32k` in the config. Note that
+`proxy_hide_header Content-Security-Policy` does **not** help — nginx must read a
+header into the buffer before it can hide it.
+
+**The general lesson: a reverse-proxy smoke driven by an error response tests almost
+nothing.** Error pages are small and share none of the success path's header weight.
+Probe with credentials that produce a real answer, or the first genuine user is your
+first real test.
+
+## Verified end to end
+
+With the real `client_id`, `POST /gh-device/code` returns:
+
+```json
+{"device_code":"…","user_code":"487F-EB1A",
+ "verification_uri":"https://github.com/login/device","expires_in":899,"interval":5}
+```
+
+which proves four things at once: the OAuth App exists, **Enable Device Flow** is
+ticked (otherwise `device_flow_disabled`), the Client ID is correct, and the relay
+forwards a readable response to the browser.
+
+## Still needed before the button works — nothing
+
+**Nothing.** ✅ The OAuth App is registered and its Client ID
+(`Ov23lifQmcuDYuTw0ZWv`, public by design — it ships in every sheet's HTML) is in
+[config/oauth_client_id.txt](https://github.com/gasyoun/vote-inbox/blob/master/config/oauth_client_id.txt).
+Historic note: GitHub exposes no API for creating an OAuth App, so this was a
+browser form a human filled in — the click path is in
 [IMPLEMENTATION_UPRAVA_VOTE_PLATFORM_W3.md](https://github.com/gasyoun/Uprava/blob/main/docs/IMPLEMENTATION_UPRAVA_VOTE_PLATFORM_W3.md).
 Paste the result into [`../config/oauth_client_id.txt`](https://github.com/gasyoun/vote-inbox/blob/master/config/oauth_client_id.txt),
 then generators pass:
