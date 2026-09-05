@@ -1,0 +1,49 @@
+{
+  "sheet_id": "uprava-portfolio-roadmap-renewal_round2-architecture-40",
+  "pack": 4,
+  "generated": "2026-09-05T10:59:30.881Z",
+  "reviewedAt": "2026-09-05T10:59:30.881Z",
+  "decided": 10,
+  "items": [
+    {
+      "id": "KAR-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "KAR-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "KAR-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "KAR-A04",
+      "decision": "approve"
+    },
+    {
+      "id": "VDCS-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "VDCS-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "VDCS-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "RR-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "RR-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "RR-A03",
+      "decision": "approve"
+    }
+  ]
+}
