@@ -1,0 +1,49 @@
+{
+  "sheet_id": "uprava-portfolio-roadmap-renewal_round2-architecture-40",
+  "pack": 2,
+  "generated": "2026-09-05T10:09:55.720Z",
+  "reviewedAt": "2026-09-05T10:09:55.720Z",
+  "decided": 10,
+  "items": [
+    {
+      "id": "SAM-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "RES-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "SL-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "SL-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "SL-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "COM-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "COM-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "COM-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "OBS-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "OBS-A02",
+      "decision": "approve"
+    }
+  ]
+}
