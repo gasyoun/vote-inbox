@@ -1,0 +1,50 @@
+{
+  "sheet_id": "uprava-portfolio-roadmap-renewal_round2-architecture-40",
+  "pack": 1,
+  "generated": "2026-09-05T10:07:11.700Z",
+  "reviewedAt": "2026-09-05T10:07:11.700Z",
+  "decided": 10,
+  "items": [
+    {
+      "id": "P-A00",
+      "decision": "approve"
+    },
+    {
+      "id": "SYS-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "SYS-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "SYS-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "SYS-A04",
+      "decision": "approve"
+    },
+    {
+      "id": "ORS-A01",
+      "decision": "approve",
+      "note": "canonical URL в ORS - только для внутреннего потребления, для внешнего все на samskrte.ru"
+    },
+    {
+      "id": "ORS-A02",
+      "decision": "approve"
+    },
+    {
+      "id": "ORS-A03",
+      "decision": "approve"
+    },
+    {
+      "id": "SAM-A01",
+      "decision": "approve"
+    },
+    {
+      "id": "SAM-A02",
+      "decision": "approve"
+    }
+  ]
+}
