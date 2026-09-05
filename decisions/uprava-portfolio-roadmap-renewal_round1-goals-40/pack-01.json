@@ -1,0 +1,69 @@
+{
+  "sheet_id": "uprava-portfolio-roadmap-renewal_round1-goals-40",
+  "pack": 1,
+  "pack_size": 10,
+  "generated": "05-09-2026",
+  "decided": 10,
+  "items": [
+    {
+      "id": "P00",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SYS-01",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SYS-02",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SYS-03",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "ORS-01",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "ORS-02",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "ORS-03",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SAM-01",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SAM-02",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    },
+    {
+      "id": "SAM-03",
+      "decision": "approve",
+      "reject_label": null,
+      "note": ""
+    }
+  ]
+}
