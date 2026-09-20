@@ -51,3 +51,5 @@ once registered by a human.
 and verdicts here carry no creative content worth protecting.
 
 _Dr. Mārcis Gasūns_
+
+**AI surface:** n/a: data-only, not a drain pick. (H5173, 20-09-2026)
