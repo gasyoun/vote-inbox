@@ -1,0 +1,64 @@
+{
+  "sheet_id": "uprava-mg-decide",
+  "generated": "11-10-2026",
+  "source": "Uprava GTD_NEXT_ACTIONS.md",
+  "source_commit": "254caff0953",
+  "cards": [
+    {
+      "id": "H6345-residual",
+      "title": "H6345-residual",
+      "question": "H6345-residual",
+      "recommendation": "",
+      "deadline": ""
+    },
+    {
+      "id": "kosha-year2",
+      "title": "kosha-year2",
+      "question": "Year-2 papers go/no-go (A3/A4 кандидаты конкорданса)?",
+      "recommendation": "go",
+      "deadline": "17-10-2026"
+    },
+    {
+      "id": "indomemy-slim",
+      "title": "indomemy-slim",
+      "question": "IndoMemy: резать исходные картины/тулзы или держать всё в HEAD?",
+      "recommendation": "A",
+      "deadline": "17-10-2026"
+    },
+    {
+      "id": "CLOSE-LOOP-PROGRAM",
+      "title": "CLOSE-LOOP-PROGRAM",
+      "question": "Рекуррентная программа закрытия цикла или лечение событий по факту?",
+      "recommendation": "A",
+      "deadline": "17-10-2026"
+    },
+    {
+      "id": "ligature-regen-gate",
+      "title": "ligature-regen-gate",
+      "question": "ligature-regen-gate",
+      "recommendation": "",
+      "deadline": "17-10-2026"
+    },
+    {
+      "id": "ligature-grill-residuals",
+      "title": "ligature-grill-residuals",
+      "question": "ligature-grill-residuals",
+      "recommendation": "",
+      "deadline": "17-10-2026"
+    },
+    {
+      "id": "H6351-weakpoints-priority",
+      "title": "H6351-weakpoints-priority",
+      "question": "Какое слабое место чинить первым",
+      "recommendation": "",
+      "deadline": ""
+    },
+    {
+      "id": "H5376-h1213",
+      "title": "H5376-h1213",
+      "question": "H5376-h1213",
+      "recommendation": "",
+      "deadline": ""
+    }
+  ]
+}
