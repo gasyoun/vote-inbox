@@ -1,0 +1,3 @@
+# Test/tooling dependencies (not needed to run the relay scripts themselves).
+# Installed by .github/workflows/tests.yml; `tools/validate_packs.py` needs jsonschema.
+jsonschema>=4.18

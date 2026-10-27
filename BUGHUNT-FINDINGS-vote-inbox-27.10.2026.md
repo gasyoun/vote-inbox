@@ -167,4 +167,29 @@ Per the skill's fix-lane contract these are minted as GTD rows in the same pass 
 
 `.github/workflows/` contains exactly one workflow — Dependabot auto-merge. Nothing compiles the Python, parses the JSON, or validates a pack against `schema/`, which is why finding 3 survived seven weeks of writes and four archived GTD rows. A `schema` + `py_compile` job is the cheapest item on this list and the one that keeps the other four from recurring.
 
+## Resolution — fix lane, 27-10-2026
+
+All five findings closed in one pass (rows `Y1A`–`Y1D` of Uprava's GTD). The gates were written and run **before** the fixes, so the red state below is the pre-fix tree, not a reconstruction:
+
+| Command | Before | After |
+|---|---|---|
+| `python3 -m unittest discover -s tests` | `Ran 15 tests … FAILED (failures=11, errors=1)` | `Ran 41 tests … OK` |
+| `python3 tools/validate_packs.py` | `3 of 9 packs valid` (exit 1) | `9 of 9 packs valid` (exit 0) |
+| `python3 -m py_compile relay/*.py tools/*.py` | rc 0 (was never wired to anything) | rc 0, now in CI |
+
+The rewritten live smoke was run against the production relay the same evening. Its browser-free half is green — `D.` allowlisted `Origin` → `204` + `Access-Control-Allow-Origin: https://gasyoun.github.io`; `E.` unlisted origin → `204`, `ACAO None`; `F.` `GET` → `403`. Its browser half (`A`–`C`) needs `playwright install chromium` on this box and is now a one-line failure naming that remedy instead of a traceback; the `C` path — the real client id — was measured earlier in the same run with the identical HTTP call (`200` + `device_code`), which is what that check asserts beyond browser readability.
+
+| # | What changed |
+|---|---|
+| 1 | `smoke_relay.py` gained `classify_device`/`classify_error`: a 2xx is required for the real id and its body must carry `device_code`; the fake id must answer GitHub's JSON `error` with a **non-5xx**; any non-JSON body (an nginx 502 page included) **fails**. It now calls the real client id from `config/oauth_client_id.txt`, so the proxy-buffer regression it documents is finally observable — and a missing client-id file fails loudly instead of skipping quietly. |
+| 2 | The allowlist is asserted, not assumed: `preflight()` + `origin_allowed()` check that an allowlisted `Origin` gets its own `Access-Control-Allow-Origin`, that an unlisted one gets **none** (a foreign ACAO does not count), and that `GET` is `403`. Offline tests cover all four cases, including a foreign-ACAO decoy. |
+| 3 | `schema/decisions-pack.schema.json` reconciled to the emitter: ISO `generated` (vote moment) and legacy `DD-MM-YYYY` both validate, `reviewedAt` / `time_total_seconds` / per-item `time_seconds` are accepted, `pack_size` is optional (the browser path omits it; consumers use `items.length`), and `additionalProperties: false` stays, so real drift is still caught. `tools/validate_packs.py` is the command `AGENTS.md` had been promising for seven weeks, and `.github/workflows/tests.yml` runs it with the suite and `py_compile`. |
+| 4 | `smoke_hydrate.py` derives its expectations from `decisions/h2991_demo/pack-01.json` (`expected_counts`), so the assertion is "the page agrees with the inbox", not "the page agrees with 18-08-2026". The parent-sheet check reads the same derived count. |
+| 5 | `wire_relay.py` is transactional: preconditions (snippet **and** map conf) before any write, `nginx -t` baseline (exit 4) and post-check with automatic rollback (exit 3), atomic `os.replace` write preserving mode, a commented-out include no longer counts as wired, and the final line names the reload still owed. |
+
+**Class vs instance.** Findings 1–3 are `CLASS` — a check that certifies what it cannot observe, and a contract that describes a producer that no longer exists; the fixes remove the mechanism, not a symptom, and the tests pin the mechanism. Finding 4 is the same verification-gap class in its data-coupled form. Finding 5 is `INSTANCE`, and its non-transactional shape is still the house default elsewhere — the sibling sweep is not claimed here.
+
+**Residual (deliberately not in this repo).** `pack_size` should come back into the sheet's inbox payload (`__inboxPayload`, csl-pyutil/tools side) so consumers get the cut size instead of inferring it; the schema tolerates its absence, the producer gap is Uprava's `Y1B`-adjacent work.
+
 _Dr. Mārcis Gasūns_
+

@@ -57,17 +57,39 @@ On `193.232.229.92` (nginx ≥ 1.25; no new service, no new account):
 scp relay/gh-device-relay-map.conf root@193.232.229.92:/etc/nginx/conf.d/
 scp relay/gh-device-relay.conf     root@193.232.229.92:/etc/nginx/snippets/
 scp relay/wire_relay.py            root@193.232.229.92:/tmp/
-ssh root@193.232.229.92 'python3 /tmp/wire_relay.py && nginx -t && systemctl reload nginx'
+ssh root@193.232.229.92 'python3 /tmp/wire_relay.py && systemctl reload nginx'
 ```
 
 `wire_relay.py` inserts the `include` into the kosha vhost before its `location / {`,
-is idempotent, and writes a timestamped backup first.
+is idempotent, and writes a timestamped backup first. Since 27-10-2026 it is
+**transactional**: it refuses before touching anything when the snippet or the map
+conf is missing (both make `nginx -t` a hard error, and the old version discovered
+that only *after* rewriting the vhost), runs `nginx -t` as a baseline and again after
+the edit, restores the backup automatically if the post-check is red, and writes
+atomically (`os.replace`) so a crash cannot leave a truncated vhost. Its last line
+says what is still owed — `NOT LIVE YET — finish with: systemctl reload nginx` —
+because "inserted" is not "live". `--no-validate` skips the nginx calls for off-box
+dry runs; `--vhost/--snippet/--map` point it at fixtures.
 
 ## Verify
 
 ```sh
 python relay/smoke_relay.py     # needs playwright
 ```
+
+Six checks, all of which can fail. Four need a browser: **A** straight to `github.com`
+(must be blocked by CORS — this reproduces §477 *inside* a browser, which `curl` can
+never show), **B** through the relay with the fake probe id (must be GitHub's JSON
+`error`, and an nginx HTML page is a FAILURE), **C** through the relay with the real
+id from `config/oauth_client_id.txt` (must carry a `device_code` — the only check that
+can expose the proxy-buffer 502), and the page/scoping checks in `smoke_hydrate.py`.
+Two are plain HTTP and assert the **allowlist itself**: **D** an allowlisted `Origin`
+gets its own `Access-Control-Allow-Origin`, **E** an unlisted origin gets none, and
+**F** `GET` is refused.
+
+Before 27-10-2026 the smoke sent only the fake id, never looked at the status, and
+printed a "note" for any body that did not contain the string `error` — so the very
+regression this file documents passed green (bughunt 27.10.2026, findings 1–2).
 
 Serves a page on an allowlisted `127.0.0.1` origin and makes two real cross-origin
 fetches from one real browser: straight to `github.com` (must fail — this reproduces
@@ -106,6 +128,12 @@ header into the buffer before it can hide it.
 nothing.** Error pages are small and share none of the success path's header weight.
 Probe with credentials that produce a real answer, or the first genuine user is your
 first real test.
+
+**Applied to the test, not only to the config (27-10-2026).** The buffers were bumped
+in August and the smoke was left alone, so for seven weeks the lesson lived in this
+file and nowhere in the executable checks: every run probed the 21-byte error path and
+would have stayed green through a 502 (bughunt 27.10.2026, finding 1). The smoke now
+makes the real-id call and treats any body that is not GitHub JSON as a failure.
 
 ## Verified end to end
 
