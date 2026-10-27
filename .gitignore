@@ -1,0 +1,7 @@
+# Python bytecode / tooling caches (relay/*.py, tools/*.py, tests/*)
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local smoke artifacts
+*.log
